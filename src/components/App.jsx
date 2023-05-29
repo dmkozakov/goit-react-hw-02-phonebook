@@ -3,6 +3,9 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { Container } from './Container.styled';
+import { ContactFormSection } from './ContactForm/ContactFormSection.styled';
+import { ContactListSection } from './ContactList/ContactListSection.styled';
 
 const INITIAL_STATE = {
   contacts: [
@@ -54,17 +57,21 @@ export class App extends Component {
     const filteredContacts = this.getFilteredContacts();
 
     return (
-      <>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
+      <Container>
+        <ContactFormSection>
+          <h1>Phonebook</h1>
+          <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
+        </ContactFormSection>
 
-        <h2>Contacts</h2>
-        <Filter filter={filter} changeFilter={this.changeFilter} />
-        <ContactList
-          filteredContacts={filteredContacts}
-          onRemoveContact={this.removeContact}
-        />
-      </>
+        <ContactListSection>
+          <h2>Contacts</h2>
+          <Filter filter={filter} changeFilter={this.changeFilter} />
+          <ContactList
+            filteredContacts={filteredContacts}
+            onRemoveContact={this.removeContact}
+          />
+        </ContactListSection>
+      </Container>
     );
   }
 }
