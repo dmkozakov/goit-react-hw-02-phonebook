@@ -19,7 +19,6 @@ export const ContactFormSection = styled.div`
     max-width: 280px;
     width: 100%;
     height: 36px;
-    margin-bottom: 16px;
 
     font-size: inherit;
   }
