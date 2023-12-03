@@ -1,11 +1,13 @@
-import { Component } from 'react';
+import { ChangeEvent, Component, MouseEvent } from 'react';
 import { nanoid } from 'nanoid';
-import { ContactForm } from './ContactForm/ContactForm';
-import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList';
+import { ContactForm } from '../ContactForm/ContactForm';
+import { Filter } from '../Filter/Filter';
+import { ContactList } from '../ContactList/ContactList';
 import { Container } from './Container.styled';
-import { ContactFormSection } from './ContactForm/ContactFormSection.styled';
-import { ContactListSection } from './ContactList/ContactListSection.styled';
+import { ContactFormSection } from '../ContactForm/ContactFormSection.styled';
+import { ContactListSection } from '../ContactList/ContactListSection.styled';
+import { IState } from 'components/interfaces/IState';
+import { IFormValues } from 'components/interfaces/IFormValues';
 
 const INITIAL_STATE = {
   contacts: [
@@ -16,21 +18,21 @@ const INITIAL_STATE = {
   ],
   filter: '',
 };
-export class App extends Component {
+export class App extends Component<IState> {
   state = { ...INITIAL_STATE };
 
-  changeFilter = e => {
+  changeFilter = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({ filter: e.target.value.toLowerCase() });
   };
 
-  formSubmitHandler = ({ name, number }) => {
+  formSubmitHandler = ({ name, number }: IFormValues) => {
     const contact = {
       id: nanoid(),
       name,
       number,
     };
 
-    this.setState(prevState => ({
+    this.setState((prevState: IState) => ({
       contacts: [contact, ...prevState.contacts],
     }));
   };
@@ -43,9 +45,9 @@ export class App extends Component {
     );
   };
 
-  removeContact = e => {
+  removeContact = (e: MouseEvent<HTMLButtonElement>) => {
     const updatedContacts = this.state.contacts.filter(
-      contact => contact.id !== e.target.dataset.id
+      contact => contact.id !== (e.target as HTMLInputElement).dataset.id
     );
 
     this.setState({ contacts: updatedContacts });

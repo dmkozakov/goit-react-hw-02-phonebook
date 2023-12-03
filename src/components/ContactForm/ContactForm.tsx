@@ -1,9 +1,20 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Formik, Field } from 'formik';
+import { Formik, Field, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { ValidateError } from './ValidateError.styled';
 import { StyledForm } from './StyledForm.styled';
+import { IContact } from 'components/interfaces/IContact';
+import { IFormValues } from 'components/interfaces/IFormValues';
+
+interface Props {
+  contacts: IContact[];
+  onSubmit: (value: IFormValues) => void;
+}
+
+interface FormValues {
+  name: string;
+  number: string;
+}
 
 const initialValues = {
   name: '',
@@ -27,8 +38,11 @@ const validationSchema = yup.object().shape({
     .required(),
 });
 
-export class ContactForm extends Component {
-  handleSubmit = ({ name, number }, { resetForm }) => {
+export class ContactForm extends Component<Props> {
+  handleSubmit = (
+    { name, number }: FormValues,
+    { resetForm }: FormikHelpers<FormValues>
+  ) => {
     const isRepeat = this.props.contacts.find(contact => contact.name === name);
 
     if (isRepeat) {
@@ -76,7 +90,3 @@ export class ContactForm extends Component {
     );
   }
 }
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func,
-};
